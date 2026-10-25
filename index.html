@@ -224,7 +224,7 @@ body.noh .ph,body.noh .caret{animation-play-state:paused}
 </div></div>
 
 <div class="ov" id="adm"><div class="box">
-<h3>Kelola konten</h3><small>Perubahan tampil ke semua pengunjung setelah Simpan dan terbitkan.</small>
+<h3>Kelola konten</h3><small>Di claude.ai, Simpan dan terbitkan langsung tayang. Di hosting lain, perubahan tampil di browser ini dulu; klik Unduh index.html lalu upload ulang agar tampil ke semua pengunjung.</small>
 <label>Nama</label><input id="a_name">
 <label>Jabatan</label><input id="a_role">
 <label>Tagline</label><input id="a_tag">
@@ -244,6 +244,7 @@ body.noh .ph,body.noh .caret{animation-play-state:paused}
 <div class="err" id="st" style="color:var(--mut)"></div>
 <div class="row">
 <button class="btn" id="a_save">Simpan dan terbitkan <i>✓</i></button>
+<button class="btn g" id="a_html">Unduh index.html <i>↓</i></button>
 <button class="btn g" id="a_dl">Unduh data.json <i>↓</i></button>
 <button class="btn g" id="a_out">Keluar <i>×</i></button>
 </div>
@@ -260,8 +261,9 @@ skills:[["HTML5",94],["CSS3",86],["JavaScript",79]],tools:["VS Code","Git & GitH
 projects:[{t:"Ruto AI",d:"Proyek AI dengan design yang bagus.",tech:["HTML5","CSS3","JavaScript"],url:""}],
 ach:[{t:"Prestasi Stats",o:"Performa website yang baik",y:"2026"}],photo:""};
 var D;
-function load(){var s=null;try{s=JSON.parse(document.getElementById("seed").textContent)}catch(e){}D=JSON.parse(JSON.stringify(s&&s.name?s:DEF))}
-function save(){}
+function load(){var s=null;try{s=JSON.parse(document.getElementById("seed").textContent)}catch(e){}D=JSON.parse(JSON.stringify(s&&s.name?s:DEF));
+try{var l=JSON.parse(localStorage.getItem(KEY));if(l&&l.name&&l._t&&l._t>(+document.getElementById("seed").dataset.t||0))D=l}catch(e){}}
+function save(){try{D._t=Date.now();localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 var $=function(i){return document.getElementById(i)};
 var tt;
@@ -324,10 +326,12 @@ var op=D.projects,oa=D.ach;D.projects=lines($("a_pj").value).map(function(l,i){v
 D.ach=lines($("a_ac").value).map(function(l,i){var p=l.split("|").map(function(x){return x.trim()}),o=oa.filter(function(q){return q.t===p[0]})[0]||oa[i]||{};return{img:o.img||"",t:p[0],o:p[1]||"",y:p[2]||""}})}
 function st(t){$("st").textContent=t}
 function cap(n){try{return window.claude&&window.claude.use?window.claude.use(n):Promise.resolve(null)}catch(e){return Promise.resolve(null)}}
-function buildHTML(){collect();var j=JSON.stringify(D).replace(/</g,"\\u003c");
-return "<!DOCTYPE html>\n<html lang=\"id\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\"><title>"+esc(D.name)+" — "+esc(D.role.trim())+"</title><meta name=\"description\" content=\"Portofolio "+esc(D.name)+", web developer.\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;800&display=swap\"><style id=\"css\">"+$("css").textContent+"</style></head><body><template id=\"skel\">"+$("skel").innerHTML+"</template><script type=\"application/json\" id=\"seed\">"+j+"<"+"/script><script id=\"app\">"+$("app").textContent+"<"+"/script></body></html>"}
-$("a_save").onclick=function(){var h=buildHTML();st("Menerbitkan...");cap("artifact").then(function(a){if(!a){st("Tidak bisa menerbitkan dari sini. Buka halaman ini di claude.ai dengan akun pemilik, atau pakai Unduh data.json.");return}
+function buildHTML(){collect();var c=JSON.parse(JSON.stringify(D));delete c._t;var j=JSON.stringify(c).replace(/</g,"\\u003c");
+return "<!DOCTYPE html>\n<html lang=\"id\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\"><title>"+esc(D.name)+" — "+esc(D.role.trim())+"</title><meta name=\"description\" content=\"Portofolio "+esc(D.name)+", web developer.\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;800&display=swap\"><style id=\"css\">"+$("css").textContent+"</style></head><body><template id=\"skel\">"+$("skel").innerHTML+"</template><script type=\"application/json\" id=\"seed\" data-t=\""+Date.now()+"\">"+j+"<"+"/script><script id=\"app\">"+$("app").textContent+"<"+"/script></body></html>"}
+$("a_save").onclick=function(){var h=buildHTML();st("Menerbitkan...");cap("artifact").then(function(a){if(!a){save();render();dlHTML(h);st("Tersimpan di browser ini dan index.html sudah diunduh. Upload file itu ke hosting kamu agar tampil ke semua pengunjung.");return}
 return a.publish(h).then(function(){st("Terbit. Halaman dimuat ulang...")},function(e){var c=e&&e.code;st(c==="conflict"?"Ada versi lebih baru, halaman dimuat ulang.":(c==="not_writer"||c==="not_granted")?"Akun ini tidak punya izin menerbitkan. Masuk dengan akun pemilik halaman.":c==="too_large"?"Terlalu besar. Hapus beberapa gambar.":c==="rate_limited"?"Terlalu sering. Coba lagi sebentar lagi.":"Gagal menerbitkan. Coba lagi.")})})};
+function dlHTML(h){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([h],{type:"text/html"}));a.download="index.html";a.click()}
+$("a_html").onclick=function(){var h=buildHTML();save();render();dlHTML(h);st("index.html diunduh. Upload ke hosting untuk menerbitkan.")};
 $("a_dl").onclick=function(){collect();var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:"application/json"}));a.download="data.json";a.click()};
 $("a_out").onclick=function(){sessionStorage.removeItem("adm");closeAll()};
 function shrink(f,max,cb){var im=new Image();im.onload=function(){var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(im.src);cb(c.toDataURL("image/webp",.75))};im.src=URL.createObjectURL(f)}
