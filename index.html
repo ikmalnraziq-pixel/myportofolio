@@ -7,7 +7,7 @@
 <meta name="description" content="Portofolio Raziq Ikmal N, web developer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;800&display=swap">
-<style>
+<style id="css">
 :root{--bg:#f1f2f4;--ink:#101319;--mut:#5d6573;--card:#fff;--shell:rgba(16,19,25,.045);--line:rgba(16,19,25,.08);--acc:#3b5bfd;--accs:rgba(59,91,253,.1);--sh:0 20px 40px -24px rgba(16,19,25,.18);--ease:cubic-bezier(.32,.72,0,1);
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0b0e;--ink:#eef0f4;--mut:#9aa2b1;--card:#12141a;--shell:rgba(255,255,255,.04);--line:rgba(255,255,255,.09);--acc:#8da0ff;--accs:rgba(141,160,255,.12);--sh:0 20px 40px -24px rgba(0,0,0,.6)}}
@@ -124,11 +124,31 @@ nav{background:color-mix(in srgb,var(--card) 94%,transparent)}
 .ai:hover{transform:translateX(5px)}
 body{transition:background-color .5s var(--ease),color .5s var(--ease)}
 body.noh .ph,body.noh .caret{animation-play-state:paused}
+.cover{overflow:hidden}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.pic{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.shots{display:flex;gap:8px;margin-top:14px;overflow-x:auto;scrollbar-width:none}
+.shots::-webkit-scrollbar{display:none}
+.shots img{width:76px;height:54px;object-fit:cover;border-radius:12px;flex:none}
+.ai img{width:56px;height:56px;object-fit:cover;border-radius:14px;flex:none}
+.cover img,.shots img,.ai img{cursor:zoom-in}
+.th{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.th span{position:relative}
+.th img{width:64px;height:48px;object-fit:cover;border-radius:10px;display:block}
+.th b,.th i{position:absolute;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-style:normal;font-weight:500;color:#fff;cursor:pointer}
+.th b{top:-6px;right:-6px;background:#d6405a}
+.th i{bottom:-6px;left:-6px;background:#555b66}
+.lb{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;background:rgba(5,6,8,.88);opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
+.lb.open{opacity:1;pointer-events:auto}
+.lb img{max-width:92vw;max-height:84dvh;border-radius:18px;transform:scale(.96);transition:transform .6s var(--ease)}
+.lb.open img{transform:none}
+.lb button{position:absolute;border:0;background:rgba(255,255,255,.14);color:#fff;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer}
+#lbp{left:10px}#lbn{right:10px}#lbx{top:calc(env(safe-area-inset-top,0px) + 14px);right:14px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.bar .f{transform:scaleX(var(--w))}}
 </style>
 </head>
 <body>
-<div class="navw"><nav>
+<template id="skel"><div class="navw"><nav>
 <span class="logo" id="logo" title="Raziq Ikmal N">RI</span>
 <div class="links"><a href="#tentang">Tentang</a><a href="#proyek">Proyek</a><a href="#prestasi">Prestasi</a><a href="#kontak">Kontak</a></div>
 <button id="theme" aria-label="Ganti tema">◐</button>
@@ -156,6 +176,8 @@ body.noh .ph,body.noh .caret{animation-play-state:paused}
 <div class="bz s4 rv" style="--d:1"><div class="in"><h3>Perangkat</h3><div class="chips" id="tools"></div></div></div>
 <div class="bz s6 rv" id="skwrap"><div class="in"><h3>Keahlian</h3><div id="sk"></div></div></div>
 <div class="bz s6 rv" style="--d:1"><div class="in"><h3>Cara kerja</h3><p>Mulai dari struktur HTML yang semantik, gaya CSS yang konsisten, lalu JavaScript secukupnya agar halaman tetap ringan dan mudah dirawat.</p></div></div>
+<div class="bz s6 rv" id="c2" hidden><div class="in" style="padding:0"><img class="pic" id="i2" alt="Foto saat bekerja" loading="lazy" decoding="async"></div></div>
+<div class="bz s6 rv" id="c3" hidden style="--d:1"><div class="in" style="padding:0"><img class="pic" id="i3" alt="Foto workspace" loading="lazy" decoding="async"></div></div>
 </div></div></section>
 
 <section id="proyek"><div class="wrap">
@@ -192,6 +214,8 @@ body.noh .ph,body.noh .caret{animation-play-state:paused}
 </main>
 <footer>© <span id="yr"></span> <span id="fnm"></span>. Semua hak dilindungi.</footer>
 
+<div class="lb" id="lb"><button id="lbp" aria-label="Sebelumnya">‹</button><img id="lbi" alt=""><button id="lbn" aria-label="Berikutnya">›</button><button id="lbx" aria-label="Tutup">×</button></div>
+
 <div class="ov" id="pin"><div class="box">
 <h3>Akses admin</h3><small>Masukkan PIN.</small>
 <label for="pi">PIN</label><input id="pi" type="password" inputmode="numeric" autocomplete="off">
@@ -200,7 +224,7 @@ body.noh .ph,body.noh .caret{animation-play-state:paused}
 </div></div>
 
 <div class="ov" id="adm"><div class="box">
-<h3>Kelola konten</h3><small>Perubahan tersimpan di browser ini. Gunakan Unduh data.json untuk menerbitkannya.</small>
+<h3>Kelola konten</h3><small>Perubahan tampil ke semua pengunjung setelah Simpan dan terbitkan.</small>
 <label>Nama</label><input id="a_name">
 <label>Jabatan</label><input id="a_role">
 <label>Tagline</label><input id="a_tag">
@@ -212,28 +236,32 @@ body.noh .ph,body.noh .caret{animation-play-state:paused}
 <label>Tools (pisahkan koma)</label><input id="a_tools">
 <label>Proyek (satu baris: Judul | Deskripsi | Teknologi, koma | Link)</label><textarea id="a_pj"></textarea>
 <label>Prestasi (satu baris: Judul | Penyelenggara | Tahun)</label><textarea id="a_ac"></textarea>
-<label>Foto profil</label><input id="a_ph" type="file" accept="image/*">
+<label>Foto utama (hero)</label><input id="a_ph" type="file" accept="image/*">
+<label>Foto Tentang (santai atau saat bekerja)</label><input id="a_ph2" type="file" accept="image/*">
+<label>Foto workspace</label><input id="a_ph3" type="file" accept="image/*">
+<div class="th" id="phs"></div>
+<label>Gambar proyek dan prestasi (isi daftarnya dulu, lalu pindah kolom agar daftar ini terbarui)</label><div id="imgs"></div>
+<div class="err" id="st" style="color:var(--mut)"></div>
 <div class="row">
-<button class="btn" id="a_save">Simpan <i>✓</i></button>
+<button class="btn" id="a_save">Simpan dan terbitkan <i>✓</i></button>
 <button class="btn g" id="a_dl">Unduh data.json <i>↓</i></button>
 <button class="btn g" id="a_out">Keluar <i>×</i></button>
 </div>
-</div></div>
-
-<script>
+</div></div></template>
+<script type="application/json" id="seed">{"name": "Raziq Ikmal N", "role": "Developer. ", "tagline": "Membangun web yang cepat, rapi, dan nyaman dipakai.", "location": "Indonesia", "about": "Halo, saya Raziq Ikmal N, developer yang suka mengubah ide menjadi halaman web yang jelas dan enak dipakai. Saya fokus pada kode yang bersih, performa yang baik, dan detail kecil yang membuat pengalaman terasa halus.", "phone": "085624850100", "email": "ikmalnraziq@gmail.com", "skills": [["HTML5", 94], ["CSS3", 86], ["JavaScript", 79]], "tools": ["VS Code", "Git & GitHub", "Figma", "Chrome DevTools"], "projects": [{"t": "Ruto AI", "d": "Proyek AI dengan design yang bagus.", "tech": ["HTML5", "CSS3", "JavaScript"], "url": "", "img": "", "shots": []}], "ach": [{"t": "Prestasi Stats", "o": "Performa website yang baik", "y": "2026", "img": ""}], "photo": "", "photo2": "", "photo3": ""}</script>
+<script id="app">
 (function(){
+document.body.insertAdjacentHTML("afterbegin",document.getElementById("skel").innerHTML);
 var HASH="9d1ef11e7923e54aaac4adfed498ca04fca20de376fb2a9436b303e158f70676",KEY="portfolio-razia-v1",AK="portfolio-razia-att";
 var DEF={name:"Raziq Ikmal N",role:"Developer. ",tagline:"Membangun web yang cepat, rapi, dan nyaman dipakai.",location:"Indonesia",
 about:"Halo, saya Raziq Ikmal N, developer yang suka mengubah ide menjadi halaman web yang jelas dan enak dipakai. Saya fokus pada kode yang bersih, performa yang baik, dan detail kecil yang membuat pengalaman terasa halus.",
 phone:"085624850100",email:"ikmalnraziq@gmail.com",
-skills:[["HTML5",90],["CSS3",85],["JavaScript",80]],tools:["VS Code","Git & GitHub","Figma","Chrome DevTools"],
-projects:[{t:"Proyek contoh satu",d:"Ganti dengan deskripsi proyek Anda lewat panel admin.",tech:["HTML5","CSS3","JavaScript"],url:""},
-{t:"Proyek contoh dua",d:"Tambahkan proyek asli lengkap dengan teknologi dan link demo.",tech:["JavaScript"],url:""},
-{t:"Proyek contoh tiga",d:"Hapus atau ubah entri ini kapan saja.",tech:["CSS3"],url:""}],
-ach:[{t:"Prestasi contoh",o:"Penyelenggara",y:"2025"}],photo:""};
+skills:[["HTML5",94],["CSS3",86],["JavaScript",79]],tools:["VS Code","Git & GitHub","Figma","Chrome DevTools"],
+projects:[{t:"Ruto AI",d:"Proyek AI dengan design yang bagus.",tech:["HTML5","CSS3","JavaScript"],url:""}],
+ach:[{t:"Prestasi Stats",o:"Performa website yang baik",y:"2026"}],photo:""};
 var D;
-function load(){try{var s=localStorage.getItem(KEY);D=s?JSON.parse(s):JSON.parse(JSON.stringify(DEF))}catch(e){D=JSON.parse(JSON.stringify(DEF))}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){alert("Penyimpanan penuh atau tidak tersedia. Gunakan foto lebih kecil.")}}
+function load(){var s=null;try{s=JSON.parse(document.getElementById("seed").textContent)}catch(e){}D=JSON.parse(JSON.stringify(s&&s.name?s:DEF))}
+function save(){}
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 var $=function(i){return document.getElementById(i)};
 var tt;
@@ -243,12 +271,13 @@ el.textContent="";(function s(){el.textContent=t.slice(0,++i);if(i<t.length)tt=s
 function render(){
 document.title=D.name+" — "+D.role.trim();
 $("nm").textContent=D.name;$("role").textContent=D.role;$("loc").textContent=D.location;
-$("ab").textContent=D.about;$("fnm").textContent=D.name;$("yr").textContent=new Date().getFullYear();
+$("ab").textContent=D.about;
+["2","3"].forEach(function(n){var u=D["photo"+n],c=$("c"+n);c.hidden=!u;if(u)$("i"+n).src=u});$("fnm").textContent=D.name;$("yr").textContent=new Date().getFullYear();
 $("ph").innerHTML=D.photo?'<img src="'+esc(D.photo)+'" alt="Foto '+esc(D.name)+'">':esc(D.name.split(" ").map(function(w){return w[0]}).slice(0,2).join("").toUpperCase());
 $("sk").innerHTML=D.skills.map(function(s){return'<div class="bar"><div><span>'+esc(s[0])+'</span><span>'+esc(s[1])+'%</span></div><div class="t"><div class="f" style="--w:'+(+s[1]/100)+'"></div></div></div>'}).join("");
 $("tools").innerHTML=D.tools.map(function(t){return'<span class="chip">'+esc(t)+'</span>'}).join("");
-$("pj").innerHTML=D.projects.map(function(p,i){return'<article class="bz pc rv" style="--d:'+i+'"><div class="in"><div class="cover">'+esc((p.t||"?")[0])+'</div><h3>'+esc(p.t)+'</h3><p>'+esc(p.d)+'</p><div class="chips">'+p.tech.map(function(t){return'<span class="chip">'+esc(t)+'</span>'}).join("")+'</div>'+(p.url?'<a href="'+esc(p.url)+'" target="_blank" rel="noopener">Lihat proyek</a>':"")+'</div></article>'}).join("");
-$("ac").innerHTML=D.ach.map(function(a,i){return'<div class="bz rv" style="--d:'+i+'"><div class="in ai"><span class="yr">'+esc(a.y)+'</span><div><b>'+esc(a.t)+'</b><span>'+esc(a.o)+'</span></div></div></div>'}).join("");
+$("pj").innerHTML=D.projects.map(function(p,i){return'<article class="bz pc rv" style="--d:'+i+'"><div class="in"><div class="cover">'+(p.img?'<img src="'+esc(p.img)+'" alt="Sampul '+esc(p.t)+'" loading="lazy" decoding="async" data-g="p'+i+'" data-i="0">':esc((p.t||"?")[0]))+'</div><h3>'+esc(p.t)+'</h3><p>'+esc(p.d)+'</p><div class="chips">'+p.tech.map(function(t){return'<span class="chip">'+esc(t)+'</span>'}).join("")+'</div>'+(p.shots&&p.shots.length?'<div class="shots">'+p.shots.map(function(u,j){return'<img src="'+esc(u)+'" alt="Screenshot '+esc(p.t)+' '+(j+1)+'" loading="lazy" decoding="async" data-g="p'+i+'" data-i="'+(j+(p.img?1:0))+'">'}).join("")+'</div>':"")+(p.url?'<a href="'+esc(p.url)+'" target="_blank" rel="noopener">Lihat proyek</a>':"")+'</div></article>'}).join("");
+$("ac").innerHTML=D.ach.map(function(a,i){return'<div class="bz rv" style="--d:'+i+'"><div class="in ai"><span class="yr">'+esc(a.y)+'</span>'+(a.img?'<img src="'+esc(a.img)+'" alt="Foto '+esc(a.t)+'" loading="lazy" decoding="async" data-g="a'+i+'" data-i="0">':"")+'<div><b>'+esc(a.t)+'</b><span>'+esc(a.o)+'</span></div></div></div>'}).join("");
 var n=D.phone.replace(/\D/g,""),intl=n.replace(/^0/,"62");
 $("tel").textContent=D.phone.replace(/(\d{4})(\d{4})(\d+)/,"$1 $2 $3");$("tel").href="tel:+"+intl;
 $("mail").textContent=D.email;$("mail").href="mailto:"+D.email;
@@ -285,18 +314,53 @@ $("a_name").value=D.name;$("a_role").value=D.role;$("a_tag").value=D.tagline;$("
 $("a_sk").value=D.skills.map(function(s){return s[0]+":"+s[1]}).join("\n");$("a_tools").value=D.tools.join(", ");
 $("a_pj").value=D.projects.map(function(p){return[p.t,p.d,p.tech.join(", "),p.url].join(" | ")}).join("\n");
 $("a_ac").value=D.ach.map(function(a){return[a.t,a.o,a.y].join(" | ")}).join("\n");
-$("adm").classList.add("open")}
+drawImgs();$("adm").classList.add("open")}
 function lines(v){return v.split("\n").map(function(l){return l.trim()}).filter(Boolean)}
 function collect(){
 D.name=$("a_name").value.trim()||D.name;D.role=$("a_role").value;D.tagline=$("a_tag").value;D.location=$("a_loc").value;D.about=$("a_about").value;D.phone=$("a_phone").value.trim();D.email=$("a_email").value.trim();
 D.skills=lines($("a_sk").value).map(function(l){var p=l.split(":");return[p[0].trim(),Math.max(0,Math.min(100,parseInt(p[1])||70))]});
 D.tools=$("a_tools").value.split(",").map(function(t){return t.trim()}).filter(Boolean);
-D.projects=lines($("a_pj").value).map(function(l){var p=l.split("|").map(function(x){return x.trim()});return{t:p[0],d:p[1]||"",tech:(p[2]||"").split(",").map(function(t){return t.trim()}).filter(Boolean),url:/^https?:\/\//.test(p[3]||"")?p[3]:""}});
-D.ach=lines($("a_ac").value).map(function(l){var p=l.split("|").map(function(x){return x.trim()});return{t:p[0],o:p[1]||"",y:p[2]||""}})}
-$("a_save").onclick=function(){collect();save();render();closeAll()};
+var op=D.projects,oa=D.ach;D.projects=lines($("a_pj").value).map(function(l,i){var p=l.split("|").map(function(x){return x.trim()}),o=op.filter(function(q){return q.t===p[0]})[0]||op[i]||{};return{img:o.img||"",shots:o.shots||[],t:p[0],d:p[1]||"",tech:(p[2]||"").split(",").map(function(t){return t.trim()}).filter(Boolean),url:/^https?:\/\//.test(p[3]||"")?p[3]:""}});
+D.ach=lines($("a_ac").value).map(function(l,i){var p=l.split("|").map(function(x){return x.trim()}),o=oa.filter(function(q){return q.t===p[0]})[0]||oa[i]||{};return{img:o.img||"",t:p[0],o:p[1]||"",y:p[2]||""}})}
+function st(t){$("st").textContent=t}
+function cap(n){try{return window.claude&&window.claude.use?window.claude.use(n):Promise.resolve(null)}catch(e){return Promise.resolve(null)}}
+function buildHTML(){collect();var j=JSON.stringify(D).replace(/</g,"\\u003c");
+return "<!DOCTYPE html>\n<html lang=\"id\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\"><title>"+esc(D.name)+" — "+esc(D.role.trim())+"</title><meta name=\"description\" content=\"Portofolio "+esc(D.name)+", web developer.\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;800&display=swap\"><style id=\"css\">"+$("css").textContent+"</style></head><body><template id=\"skel\">"+$("skel").innerHTML+"</template><script type=\"application/json\" id=\"seed\">"+j+"<"+"/script><script id=\"app\">"+$("app").textContent+"<"+"/script></body></html>"}
+$("a_save").onclick=function(){var h=buildHTML();st("Menerbitkan...");cap("artifact").then(function(a){if(!a){st("Tidak bisa menerbitkan dari sini. Buka halaman ini di claude.ai dengan akun pemilik, atau pakai Unduh data.json.");return}
+return a.publish(h).then(function(){st("Terbit. Halaman dimuat ulang...")},function(e){var c=e&&e.code;st(c==="conflict"?"Ada versi lebih baru, halaman dimuat ulang.":(c==="not_writer"||c==="not_granted")?"Akun ini tidak punya izin menerbitkan. Masuk dengan akun pemilik halaman.":c==="too_large"?"Terlalu besar. Hapus beberapa gambar.":c==="rate_limited"?"Terlalu sering. Coba lagi sebentar lagi.":"Gagal menerbitkan. Coba lagi.")})})};
 $("a_dl").onclick=function(){collect();var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:"application/json"}));a.download="data.json";a.click()};
 $("a_out").onclick=function(){sessionStorage.removeItem("adm");closeAll()};
-$("a_ph").onchange=function(){var f=this.files[0];if(!f)return;var im=new Image();im.onload=function(){var s=Math.min(1,600/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*s;c.height=im.height*s;c.getContext("2d").drawImage(im,0,0,c.width,c.height);D.photo=c.toDataURL("image/webp",.8);save();render()};im.src=URL.createObjectURL(f)};
+function shrink(f,max,cb){var im=new Image();im.onload=function(){var s=Math.min(1,max/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(im.src);cb(c.toDataURL("image/webp",.75))};im.src=URL.createObjectURL(f)}
+function ok(){collect();save();render();drawImgs()}
+function thumb(u,x){return'<span><img src="'+esc(u)+'" alt="">'+x+'</span>'}
+function drawImgs(){
+$("phs").innerHTML=[["photo"],["photo2"],["photo3"]].filter(function(x){return D[x[0]]}).map(function(x){return thumb(D[x[0]],'<b data-k="'+x[0]+'">×</b>')}).join("");
+var h="";
+D.projects.forEach(function(p,i){p.shots=p.shots||[];h+='<label>Sampul: '+esc(p.t||"Proyek "+(i+1))+'</label><input type="file" accept="image/*" data-pc="'+i+'">'+(p.img?'<div class="th">'+thumb(p.img,'<b data-pd="'+i+'">×</b>')+'</div>':"")+'<label>Screenshot (boleh pilih banyak)</label><input type="file" accept="image/*" multiple data-ps="'+i+'"><div class="th">'+p.shots.map(function(u,j){return thumb(u,'<b data-sd="'+i+'-'+j+'">×</b>'+(j?'<i data-sm="'+i+'-'+j+'">◀</i>':""))}).join("")+'</div>'});
+D.ach.forEach(function(a,i){h+='<label>Foto prestasi: '+esc(a.t||i+1)+'</label><input type="file" accept="image/*" data-af="'+i+'">'+(a.img?'<div class="th">'+thumb(a.img,'<b data-ad="'+i+'">×</b>')+'</div>':"")});
+$("imgs").innerHTML=h}
+[["a_ph","photo",640],["a_ph2","photo2",900],["a_ph3","photo3",900]].forEach(function(x){$(x[0]).onchange=function(){var f=this.files[0],inp=this;if(!f)return;shrink(f,x[2],function(u){D[x[1]]=u;inp.value="";ok()})}});
+$("a_pj").onchange=$("a_ac").onchange=function(){collect();drawImgs()};
+$("phs").onclick=function(e){var k=e.target.dataset.k;if(k){D[k]="";ok()}};
+$("imgs").onclick=function(e){var d=e.target.dataset,x;
+if(d.pd!==undefined)D.projects[d.pd].img="";
+else if(d.sd){x=d.sd.split("-");D.projects[x[0]].shots.splice(x[1],1)}
+else if(d.sm){x=d.sm.split("-");var s=D.projects[x[0]].shots,j=+x[1],t=s[j];s[j]=s[j-1];s[j-1]=t}
+else if(d.ad!==undefined)D.ach[d.ad].img="";
+else return;ok()};
+$("imgs").onchange=function(e){var t=e.target,d=t.dataset,fs=Array.from(t.files||[]);if(!fs.length)return;
+if(d.pc!==undefined)shrink(fs[0],900,function(u){D.projects[d.pc].img=u;ok()});
+else if(d.af!==undefined)shrink(fs[0],700,function(u){D.ach[d.af].img=u;ok()});
+else if(d.ps!==undefined){var p=D.projects[d.ps],n=0;p.shots=p.shots||[];fs.forEach(function(f){shrink(f,1000,function(u){p.shots.push(u);if(++n===fs.length)ok()})})}};
+var gal=[],gi=0;
+function gOf(g){var i=+g.slice(1);return g[0]==="p"?[D.projects[i].img].concat(D.projects[i].shots||[]).filter(Boolean):[D.ach[i].img]}
+function show(){$("lbi").src=gal[gi];$("lbp").style.display=$("lbn").style.display=gal.length>1?"":"none"}
+document.addEventListener("click",function(e){var d=e.target.dataset;if(d&&d.g){gal=gOf(d.g);gi=+d.i;show();$("lb").classList.add("open")}});
+$("lbx").onclick=function(){$("lb").classList.remove("open")};
+$("lb").onclick=function(e){if(e.target===this)this.classList.remove("open")};
+$("lbp").onclick=function(){gi=(gi+gal.length-1)%gal.length;show()};
+$("lbn").onclick=function(){gi=(gi+1)%gal.length;show()};
+addEventListener("keydown",function(e){var l=$("lb");if(!l.classList.contains("open"))return;if(e.key==="Escape")l.classList.remove("open");if(e.key==="ArrowRight")$("lbn").click();if(e.key==="ArrowLeft")$("lbp").click()});
 document.querySelectorAll("main section:not(.hero) h2,main section:not(.hero) .eyebrow").forEach(function(e){e.classList.add("rv")});
 new IntersectionObserver(function(es){document.body.classList.toggle("noh",!es[0].isIntersecting)}).observe(document.querySelector(".hero"));
 load();render();
